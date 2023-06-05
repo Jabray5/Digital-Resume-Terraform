@@ -4,22 +4,12 @@ provider "aws" {
   profile = "WebApp"
 }
 
-// Create a variable for our domain name because we'll be using it a lot.
-variable "www_domain_name" {
-  default = "www.joeybrayshaw.com"
-}
-
-// We'll also need the root domain (also known as zone apex or naked domain).
-variable "root_domain_name" {
-  default = "joeybrayshaw.com"
-}
-
 resource "aws_s3_bucket" "www" {
   bucket = var.www_domain_name
 }
 
 resource "aws_s3_bucket_policy" "www-policy" {
-  bucket = var.www_domain_name
+  bucket = aws_s3_bucket.www.bucket
 
   policy = jsonencode(
     {
@@ -39,7 +29,7 @@ resource "aws_s3_bucket_policy" "www-policy" {
 }
 
 resource "aws_s3_bucket_website_configuration" "www-config" {
-  bucket = var.www_domain_name
+  bucket = aws_s3_bucket.www.bucket
 
   index_document {
     suffix = "index.html"
