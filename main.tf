@@ -7,6 +7,7 @@ provider "aws" {
 module "static-website-bucket-www" {
   source      = "./modules/static_website_s3"
   bucket-name = var.www_domain_name
+  cloudfront_oai = module.static_website_cloudfront.cloudfront_oai_arn
 }
 
 module "static_website_cloudfront" {

@@ -7,10 +7,10 @@ resource "aws_s3_bucket" "static" {
 
 resource "aws_s3_bucket_public_access_block" "this" {
   bucket                  = aws_s3_bucket.static.bucket
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket_policy" "this" {
@@ -22,9 +22,9 @@ resource "aws_s3_bucket_policy" "this" {
         {
           Action    = "s3:GetObject"
           Effect    = "Allow"
-          Principal = "*"
+          Principal = { AWS = "${var.cloudfront_oai[0]}" }
           Resource  = "arn:aws:s3:::www.joeybrayshaw.com/*"
-          Sid       = "PublicReadGetObject"
+          Sid       = "AllowCloudFrontServicePrincipalReadOnly"
         },
       ]
       Version = "2012-10-17"
