@@ -73,5 +73,3 @@ jobs:
 
     - name: Sync
       run: aws s3 sync $GITHUB_WORKSPACE s3://www.joeybrayshaw.com/
-
-
