@@ -9,3 +9,7 @@ output "cdn_domain_name" {
 output "cdn_hosted_zone_id" {
   value = module.cdn.cloudfront_distribution_hosted_zone_id
 }
+
+output "cdn_id" {
+  value = module.cdn.cloudfront_distribution_id
+}
