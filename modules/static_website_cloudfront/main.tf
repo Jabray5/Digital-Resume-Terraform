@@ -1,9 +1,39 @@
+provider "aws" {
+  region     = "us-east-1"
+  alias      = "virginia"
+  profile = "WebApp"
+}
+
+resource "aws_acm_certificate" "cert" {
+  provider = aws.virginia
+  domain_name       = var.www_domain_name
+  validation_method = "DNS"
+  options {
+    
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 module "cdn" {
   source              = "terraform-aws-modules/cloudfront/aws"
   comment             = "Cloudfront Distribution for static S3 website"
   is_ipv6_enabled     = true
   price_class         = "PriceClass_100"
   wait_for_deployment = false
+  aliases = [
+    var.www_domain_name,
+    var.root_domain_name
+  ]
+
+  viewer_certificate = {
+    acm_certificate_arn = aws_acm_certificate.cert.arn
+    cloudfront_default_certificate = false
+    minimum_protocol_version       = "TLSv1.2_2021"
+    ssl_support_method             = "sni-only"
+  }
 
   create_origin_access_identity = true
 

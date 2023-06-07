@@ -4,6 +4,17 @@ provider "aws" {
   profile = "WebApp"
 }
 
+provider "aws" {
+  region     = "us-east-1"
+  alias      = "virginia"
+}
+
+# provider "aws" {
+#   region = "us-east-1"
+#   alias = "us-east-1"
+#   profile = "WebApp"
+# }
+
 module "static-website-bucket-www" {
   source         = "./modules/static_website_s3"
   bucket-name    = var.www_domain_name
@@ -13,6 +24,8 @@ module "static-website-bucket-www" {
 module "static_website_cloudfront" {
   source             = "./modules/static_website_cloudfront"
   bucket_domain_name = module.static-website-bucket-www.www_s3_domain
+  www_domain_name = var.www_domain_name
+  root_domain_name = var.root_domain_name
 }
 
 module "static_website_route53" {
