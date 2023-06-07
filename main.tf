@@ -9,7 +9,7 @@ terraform {
 
 // This block tells Terraform that we're going to provision AWS resources.
 provider "aws" {
-  region  = "eu-west-1"
+  region = "eu-west-1"
 }
 
 module "static-website-bucket-www" {
@@ -21,8 +21,8 @@ module "static-website-bucket-www" {
 module "static_website_cloudfront" {
   source             = "./modules/static_website_cloudfront"
   bucket_domain_name = module.static-website-bucket-www.www_s3_domain
-  www_domain_name = var.www_domain_name
-  root_domain_name = var.root_domain_name
+  www_domain_name    = var.www_domain_name
+  root_domain_name   = var.root_domain_name
 }
 
 module "static_website_route53" {

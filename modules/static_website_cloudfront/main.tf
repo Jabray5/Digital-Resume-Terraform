@@ -1,15 +1,15 @@
 provider "aws" {
-  region     = "us-east-1"
-  alias      = "virginia"
+  region  = "us-east-1"
+  alias   = "virginia"
   profile = "WebApp"
 }
 
 resource "aws_acm_certificate" "cert" {
-  provider = aws.virginia
+  provider          = aws.virginia
   domain_name       = var.www_domain_name
   validation_method = "DNS"
   options {
-    
+
   }
 
   lifecycle {
@@ -29,7 +29,7 @@ module "cdn" {
   ]
 
   viewer_certificate = {
-    acm_certificate_arn = aws_acm_certificate.cert.arn
+    acm_certificate_arn            = aws_acm_certificate.cert.arn
     cloudfront_default_certificate = false
     minimum_protocol_version       = "TLSv1.2_2021"
     ssl_support_method             = "sni-only"
