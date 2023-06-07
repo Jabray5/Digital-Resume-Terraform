@@ -67,6 +67,9 @@ jobs:
     - name: Set env
       run: |
         echo "$(terraform output cloudfront_distribution_id | tr -d '"')"
+    
+    - name: Invalidate Cloudfront distribution
+      run: aws cloudfront create-invalidation --paths "/*" --distribution-id $(terraform output cloudfront_distribution_id | tr -d '"')
       
     - name: Checkout
       uses: actions/checkout@v3.5.2
@@ -78,6 +81,4 @@ jobs:
     - name: Sync
       run: aws s3 sync $GITHUB_WORKSPACE s3://www.joeybrayshaw.com/
 
-    - name: Invalidate Cloudfront distribution
-      run: aws cloudfront create-invalidation --paths "/*" --distribution-id $(terraform output cloudfront_distribution_id | tr -d '"')
 
