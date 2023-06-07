@@ -71,7 +71,7 @@ jobs:
       uses: actions/checkout@v3.5.2
       with:
         repository: Jabray5/Digital-Resume
-        ref: refs/heads/main
+        ref: main
     
     - name: Sync
       run: aws s3 sync ./Digital-Resume S3://www.joeybrayshaw.com/
