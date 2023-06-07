@@ -29,46 +29,46 @@ jobs:
         shell: bash
 
     steps:
-#     - name: Configure AWS Credentials
-#       uses: aws-actions/configure-aws-credentials@v2
-#       with:
-#         role-to-assume: arn:aws:iam::675853243185:role/GithubActionsTerraform
-#         aws-region: eu-west-1     
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::675853243185:role/GithubActionsTerraform
+        aws-region: eu-west-1     
 
-#     # Checkout the repository to the GitHub Actions runner
-#     - name: Checkout
-#       uses: actions/checkout@v3
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
 
-#     # Install the latest version of Terraform CLI  ~~and configure the Terraform CLI configuration file with a Terraform Cloud user API token~~
-#     - name: Setup Terraform
-#       uses: hashicorp/setup-terraform@v1
+    # Install the latest version of Terraform CLI  ~~and configure the Terraform CLI configuration file with a Terraform Cloud user API token~~
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
 
-#     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-#     - name: Terraform Init
-#       run: terraform init
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
 
-#     # Checks that all Terraform configuration files adhere to a canonical format
-#     - name: Terraform Format
-#       run: terraform fmt -check
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: terraform fmt -check
 
-#     # Generates an execution plan for Terraform
-#     - name: Terraform Plan
-#       run: terraform plan -input=false
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan -input=false
 
-#       # On push to "main", build or change infrastructure according to Terraform configuration files
-#       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
-#     - name: Terraform Apply
-#       if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
-#       run: terraform apply -auto-approve -input=false
+      # On push to "main", build or change infrastructure according to Terraform configuration files
+      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false
       
     - name: Set the value
       id: step_one
       run: |
-        echo "action_state=yellow" >> "$GITHUB_ENV"
+        echo "CDN_ID=$(terraform output cloudfront_distribution_id)" >> "$GITHUB_ENV"
     - name: Use the value
       id: step_two
       run: |
-        echo "${{ env.action_state }}" # This will output 'yellow'
+        echo "${{ env.CDN_ID }}" # This will output 'yellow'
 
 #     - name: Set env
 #       run: echo "CDN_ID=$(terraform output cloudfront_distribution_id)" >> $GITHUB_ENV
