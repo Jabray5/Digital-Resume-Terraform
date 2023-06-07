@@ -1,7 +1,15 @@
+terraform {
+  backend "s3" {
+    bucket = "www.joeybrayshaw.com-terraform"
+    key    = "terraform.tfstate"
+    region = "eu-west-1"
+  }
+
+}
+
 // This block tells Terraform that we're going to provision AWS resources.
 provider "aws" {
   region  = "eu-west-1"
-  profile = "WebApp"
 }
 
 module "static-website-bucket-www" {
