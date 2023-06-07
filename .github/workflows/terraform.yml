@@ -69,7 +69,8 @@ jobs:
         echo "$(terraform output cloudfront_distribution_id | tr -d '"')"
     
     - name: Invalidate Cloudfront distribution
-      run: aws cloudfront create-invalidation --paths "/*" --distribution-id $(terraform output cloudfront_distribution_id | tr -d '"')
+      run: |
+        aws cloudfront create-invalidation --distribution-id $(terraform output cloudfront_distribution_id | tr -d '"') --paths "/*"
       
     - name: Checkout
       uses: actions/checkout@v3.5.2
