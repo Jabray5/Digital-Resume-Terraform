@@ -61,6 +61,12 @@ jobs:
       if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
       
+    - name: Get Terraform Output
+      run:  CDN_ID=$(terraform output cloudfront_distribution_id | tr -d '"')
+      
+    - name: Print Terraform Output
+      run:  echo $CDN_ID
+      
     - name: Checkout
       uses: actions/checkout@v3.5.2
       with:
@@ -70,12 +76,6 @@ jobs:
 
     - name: Sync
       run: aws s3 sync $GITHUB_WORKSPACE s3://www.joeybrayshaw.com/
-
-    - name: Get Terraform Output
-      run:  CDN_ID=$(terraform output cloudfront_distribution_id | tr -d '"')
-      
-    - name: Print Terraform Output
-      run:  echo $CDN_ID
 
     - name: Invalidate Cloudfront distribution
       run: aws cloudfront create-invalidation --paths "/*" --distribution-id $CDN_ID  
