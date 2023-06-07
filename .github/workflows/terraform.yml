@@ -14,6 +14,7 @@ on:
   pull_request:
 
 permissions:
+  id-token: write # This is required for requesting the JWT
   contents: read
 
 jobs:
@@ -31,9 +32,8 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-west-1
+        role-to-assume: arn:aws:iam::675853243185:role/GithubActionsTerraform
+        aws-region: eu-west-1     
 
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
