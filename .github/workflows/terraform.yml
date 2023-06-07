@@ -66,9 +66,10 @@ jobs:
       with:
         repository: Jabray5/Digital-Resume
         ref: master
+        path: /Digital-Resume
 
     - name: Sync
-      run: aws s3 sync ./Digital-Resume s3://www.joeybrayshaw.com/
+      run: aws s3 sync $GITHUB_WORKSPACE/Digital-Resume s3://www.joeybrayshaw.com/
 
     - name: Get Terraform Output
       run:  CDN_ID=$(terraform output cloudfront_distribution_id)
