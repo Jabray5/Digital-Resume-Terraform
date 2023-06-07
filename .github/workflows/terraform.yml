@@ -70,9 +70,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3.5.2
       with:
-        # Repository name with owner. For example, actions/checkout
-        repository: jabray5/Digital-Resume
-        ref: main
+        repository: Jabray5/Digital-Resume
+        ref: refs/heads/main
     
     - name: Sync
       run: aws s3 sync ./Digital-Resume S3://www.joeybrayshaw.com/
