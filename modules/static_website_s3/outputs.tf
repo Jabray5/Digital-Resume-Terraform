@@ -3,5 +3,5 @@ output "www_s3_arn" {
 }
 
 output "www_s3_domain" {
-  value = aws_s3_bucket.static.bucket_domain_name
+  value = aws_s3_bucket.static.bucket_regional_domain_name
 }
