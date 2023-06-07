@@ -1,7 +1,6 @@
 provider "aws" {
   region  = "us-east-1"
   alias   = "virginia"
-  profile = "WebApp"
 }
 
 resource "aws_acm_certificate" "cert" {
