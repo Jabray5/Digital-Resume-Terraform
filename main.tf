@@ -5,12 +5,20 @@ provider "aws" {
 }
 
 module "static-website-bucket-www" {
-  source      = "./modules/static_website_s3"
-  bucket-name = var.www_domain_name
+  source         = "./modules/static_website_s3"
+  bucket-name    = var.www_domain_name
   cloudfront_oai = module.static_website_cloudfront.cloudfront_oai_arn
 }
 
 module "static_website_cloudfront" {
   source             = "./modules/static_website_cloudfront"
   bucket_domain_name = module.static-website-bucket-www.www_s3_domain
+}
+
+module "static_website_route53" {
+  source             = "./modules/static_website_route53"
+  www_domain         = var.www_domain_name
+  root_domain        = var.root_domain_name
+  cdn_domain_name    = module.static_website_cloudfront.cdn_domain_name
+  cdn_hosted_zone_id = module.static_website_cloudfront.cdn_hosted_zone_id
 }

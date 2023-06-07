@@ -23,7 +23,7 @@ resource "aws_s3_bucket_policy" "this" {
           Action    = "s3:GetObject"
           Effect    = "Allow"
           Principal = { AWS = "${var.cloudfront_oai[0]}" }
-          Resource  = "arn:aws:s3:::www.joeybrayshaw.com/*"
+          Resource  = "arn:aws:s3:::${var.bucket-name}/*"
           Sid       = "AllowCloudFrontServicePrincipalReadOnly"
         },
       ]
