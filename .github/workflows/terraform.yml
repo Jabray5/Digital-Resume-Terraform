@@ -60,12 +60,11 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
-      
-    - name: Get Terraform Output
-      run:  CDN_ID=$(terraform output cloudfront_distribution_id | tr -d '"')
-      
-    - name: Print Terraform Output
-      run:  echo $CDN_ID
+
+    - name: Set env
+      run: echo "CDN_ID=$(terraform output cloudfront_distribution_id | tr -d '"')" >> $GITHUB_ENV
+    - name: Test
+      run: echo $CDN_ID
       
     - name: Checkout
       uses: actions/checkout@v3.5.2
