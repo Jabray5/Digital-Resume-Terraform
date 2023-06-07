@@ -64,7 +64,7 @@ jobs:
     - name: Set the value
       id: step_one
       run: |
-        echo "CDN_ID=$(terraform output cloudfront_distribution_id)" >> "$GITHUB_ENV"
+        echo "CDN_ID=EKUN0T6GV56G7" >> "$GITHUB_ENV"
     - name: Use the value
       id: step_two
       run: |
