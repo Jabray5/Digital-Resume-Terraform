@@ -69,7 +69,7 @@ jobs:
         path: .
 
     - name: Sync
-      run: aws s3 sync $GITHUB_WORKSPACE/Digital-Resume s3://www.joeybrayshaw.com/
+      run: aws s3 sync $GITHUB_WORKSPACE s3://www.joeybrayshaw.com/
 
     - name: Get Terraform Output
       run:  CDN_ID=$(terraform output cloudfront_distribution_id)
